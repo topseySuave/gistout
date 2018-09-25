@@ -1,0 +1,20 @@
+//Created by Daniel on 6/30/2017.
+
+nav._2thmnv(ng-if="isLogInPage === false")
+    .nav-wrapper._2thmnvc
+        a.brand-logo.bolder.pad5(href="/")
+            img(src="/docs/img/logo/site_logo.png" alt="gistout.com").site_logo
+        form._2dvsrch.hide-on-med-and-down(method="POST" enctype="application/x-www-form-urlencoded")
+            .input-field.pad10
+                input.autocomplete.light-grey._2brdrrd#autocomplete-input(type="search" ng-model="searchString" on-key-enter="goSearch(searchString)" required="" style="background: #f5f5f5;" placeholder="Search for gists, username, title, tags")
+                label.label-icon(for="autocomplete-input" style="color: #CCC;")
+                    i.material-icons search
+                i.material-icons close
+        a(href="#" data-activates="slide-out").button-collapse
+            i.material-icons menu
+
+        ul#nav-mobile.right.hide-on-med-and-down(ng-if="isLoggedIn === false")
+            li
+                a.btn-flat.waves-effect(href="signin/?redirect={{redirectAfterAuth}}") sign in
+            li
+                a.btn._2grdntbg.white-text.waves-effect(href="signup") sign up

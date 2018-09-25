@@ -1,0 +1,30 @@
+//Created by Daniel on 7/29/2017.
+script(src="lib/js/signin.js")
+.row._2padd4signin(ng-controller="authCntrllr")
+    .col.s12.l12
+        span.center._2cntrlze-o-s
+            img(src="/docs/img/logo/site_logo.png" width="100%")
+        .card._2padd4signin.relative#loginArea
+            h5.center-align Sign In
+            form#signInForm
+                .row
+                    .input-field.col.s12
+                        input#usernameInput(name="email" type="email").validate
+                        label(for="usernameInput") Email
+
+                    .input-field.col.s12
+                        input#passwordInput(name="password" type="password").validate
+                        label(for="passwordInput") Password
+
+                    .input-field.col.s12.noMargin
+                        .col.s6.l6
+                            input#remember(name="remember" type="checkbox")
+                            label(for="remember" style="top: 0;") Remember me
+                        .col.s6.l6._2fontsze
+                            a#forgotPassword(href="recovery") <i class="material-icons _2fontsze">lock</i> Forget Password?
+
+                    .input-field.col.s12
+                        button.waves-effect.col.s12.btn.blue#signinSubmitBtn(type="submit" name="signInSubmit") sign in
+
+                    .input-field.col.s12.center
+                        |Don't have an account? <a href="signup">Sign Up</a>

@@ -1,0 +1,283 @@
+// Created by Daniel on 6/30/2017.
+
+div(ng-controller="gstCntrllr" style="position: relative;")
+    //gist page view
+    nav.breadcrumb--nav
+        .nav-wrapper.truncate
+            a.breadcrumb(href="/") Home
+            a.breadcrumb(href="category") Category
+            a.breadcrumb(href="#") Gist
+            a.breadcrumb.active(href="#") {{gistData.title}}
+
+    .row
+        .col.s12.m12.l12
+            .card
+                .card-content.pad10(gist-author-loaded itemscope itemtype="http://schema.org/Article")
+                    span._2cptlz._2cntriz.pad10(style="width: 100%;")
+                        a(href="profile/{{gistData.username | permalink}}")
+                            img._2rndd._2gstusravtr(itemprop="image" src="{{gistData.userAvatar}}{{cacheBustParam}}")
+                            p(style="margin: 0px 30%" itemprop="author" itemscope itemtype="http://schema.org/Person").black-text {{gistData.username}} <br> <span style="font-size: 10px;" itemprop="datePublished" content="{{gistData.created}}">{{gistData.created}}</span>
+                        //a.bolder(href="profile/{{gistData.username | permalink}}") {{gistData.username}}
+                        //br
+                        //span {{gistData.created}}
+                    //Gist Title
+                    p._2fntwht._2cntriz(itemprop="name" style="font-weight: bolder;") {{gistData.title}}
+
+                    .divider(style="margin: 20px 0;")
+                    article._2articleimg.pad10(id="gistArticle-{{gistData.id}}" ng-bind-html="gistData.content")
+                        //._2imgprvwhldr(ng-if="gistData.hasImage === true")
+                        //    img.materialboxed(src="{{gistData.image}}")
+                    meta(itemprop="articleBody" content="{{gistData.content}}")
+                    ._2ftrarea._2dsplyflex.pad10(style="padding-bottom: 0px;")
+                        ._2lkhldr(ng-if="isLoggedIn === true")
+                            //Like button
+                            a._2rnddcnrs.tooltipped(id="{{gistData.buttonId}}" class="{{gistData.classId}}" data-post-id="" data-sess-user-id="{{id}}" data-user-id="{{gistData.user.id}}" data-gist-id="{{gistData.id}}" data-delay="50" data-position="top" data-tooltip="{{gistData.likes}} likes")
+                                span#count-like.grey-text(style="margin-right: 5px;") {{gistData.likes}}
+                                i.material-icons.dflt-fnt-sze thumb_up
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr
+                            a.dropdown-button._2rnddcnrs.materialize-red-text.tooltipped#share-btn(data-activates='shareDrop' data-delay="50" data-position="top" data-tooltip="{{gistData.shares}} shares")
+                                span#share-count.grey-text(style="margin-right: 5px;") {{gistData.shares}}
+                                i.material-icons.dflt-fnt-sze share
+                            //Dropdown Structure
+                            ul#shareDrop.dropdown-content(style="width: auto !important;")
+                                li
+                                    a(href="https://www.facebook.com/sharer/share.php?u={{gistData.location}}" target="_blank" data-delay="50" data-position="right" data-tooltip="share to facebook").tooltipped.blue-text.text-darken-4 Facebook
+                                li
+                                    a(href="" target="_blank" data-delay="50" data-position="right" data-tooltip="share to twitter").tooltipped.blue-text.text-lighten-2 Twitter
+                                li
+                                    a(href="" target="_blank" data-delay="50" data-position="right" data-tooltip="share to google+").tooltipped.red-text.text-darken-4 Google+
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr
+                            span._2rnddcnrs.tooltipped(style="margin-right: 5px; display: inline-flex;" data-delay="50" data-position="top" data-tooltip="{{gistData.views}} views")
+                                span#viewsG.grey-text(data-views="{{gistData.views}}" style="margin-right: 5px;")
+                                    |{{gistData.views}}
+                                i.material-icons.grey-text.text-darken-2 visibility
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr
+                            span._2rnddcnrs.tooltipped(style="margin-right: 5px; display: inline-flex;" data-delay="50" data-position="top" data-tooltip="{{gistData.posts}}  posts")
+                                span#g-count-post.grey-text(style="margin-right: 5px;")
+                                    | {{gistData.posts}}
+                                i.material-icons.green-text.text-darken-2 forum
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr
+                            span._2rnddcnrs.tooltipped(style="width: inherit; margin-right: 5px; display: inline-flex;" data-delay="50" data-position="top" data-tooltip="{{gistData.followers}}  followers")
+                                span#followers-count.grey-text(style="margin-right: 5px;")
+                                    |{{gistData.followers}}
+                                i.material-icons.amber-text.text-darken-2(style="width: inherit;") people
+
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr.right-align(ng-if="superUser === true")
+                            a.waves-effect.tooltipped.grey-text.margin-right(ng-if="gistData.hot_flag === 0" id="hotFlag" href="#" ng-click="addAsHotFlag(gistData.id)" data-delay="50" data-position="top" data-tooltip="set as hot gist")
+                                small
+                                    i.material-icons flag
+                            a.waves-effect.tooltipped.red-text.margin-right(ng-if="gistData.hot_flag === 1" id="hotFlag" href="#" ng-click="unSetHot(gistData.id)" data-delay="50" data-position="top" data-tooltip="unset as hot gist")
+                                small
+                                    i.material-icons flag
+
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr.right-align(ng-if="superUser === true")
+                            a.waves-effect.tooltipped.grey-text.marg-right(ng-if="gistData.trend_flag === 0" id="trending" href="#" ng-click="addAsTrending(gistData.id)" data-delay="50" data-position="top" data-tooltip="set as trending")
+                                small
+                                    i.material-icons trending_up
+                            a.waves-effect.tooltipped.red-text.marg-right(ng-if="gistData.trend_flag === 1" id="trending" href="#" ng-click="removeAsTrending(gistData.id)" data-delay="50" data-position="top" data-tooltip="unset as trending")
+                                small
+                                    i.material-icons trending_up
+
+
+                            span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                        ._2lkhldr.right-align(ng-if="isLoggedIn === true")
+                            button.no-btn.waves-effect.tooltipped.amber-text.marg-right(ng-if="superUser || gistData.isAdmin === true" ng-click="editGist(gistData.id, 'gist')" data-delay="50" data-position="top" data-tooltip="edit")
+                                small
+                                    i.material-icons edit
+
+            .card
+                h6.pad5.grey-text.bolder(style="display: flex;")
+                    .pad5#posts-count {{gistData.posts}}
+                    .pad5 post
+
+            // Preloader
+            ._2alncnbtr(ng-hide="isLoaded")
+                .preloader-wrapper.active
+                    .spinner-layer.spinner-blue
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-red
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-yellow
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-green
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                                .circle
+
+
+            // No data
+            p(ng-if="noData === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") notifications_off
+                br
+                | There are no posts
+
+            .card#list-collection(ng-if="noData === false")
+                ul.collection(style="padding: 10px 0;overflow: visible;")
+                    li.collection-item.avatar(id="list-group-{{p.id}}" ng-repeat="p in pData" on-finish-render="ngRepeatFinished")
+                        a.secondary-content.tooltipped(id="{{p.starredBtnId}}" data-post-id="{{p.id}}" data-sess="{{id}}" data-post-user="{{p.user_id}}" data-tooltip="{{p.starredText}}" data-activates="tooltip" data-position="bottom" data-delay="50")
+                            i.material-icons(style="color: {{p.color}};") {{p.starredIcon}}
+
+                        a(href="profile/{{p.username}}")
+                            //._2imggrdntbg._2grdntbg._2rnddcnrs(ng-show="p.isAdmin")
+                            //    img(src="/{{p.user_avatar}}" alt="{{p.username}}")._2rnddcnrs
+                            //img(src="/{{p.user_avatar}}" alt="{{p.username}}" ng-hide="p.isAdmin").circle
+                            small.title(style="color: {{p.color}};") @{{p.username}} - <small>{{p.created}}</small>
+
+                        //Display Quote Content
+                        ul.collection.qouted(ng-if="p.hasQuote === true" style="border-left: 3px solid {{p.quoteUserColor}}; overflow: visible;")
+                            p.small.right-align(style="padding-right: 20px;") @{{p.username}} replied to @{{p.quoteUsername}}
+                            li.collection-item.avatar(on-finish-render="ngRepeatFinished" style="padding-top: 0px; min-height: 10px;")
+                                a(href="profile/{{p.quoteUsername}}")
+                                    //img(src="/{{p.quoteUserAvatar}}" alt="{{p.quoteUsername}}").circle
+                                    small.title(style="color: {{p.quoteUserColor}};") @{{p.quoteUsername}} - <small>{{p.quoteCreated}}</small>
+                                article(ng-bind-html="p.quoteContent" style="margin-top: 10px;")
+
+                        article(id="gistArticle-{{p.id}}" ng-bind-html="p.content" style="margin-top: 10px;")
+                            //._2imgprvwhldr(ng-if="p.hasImage === false")
+                            //    img.materialboxed(src="/{{p.img_path}}")
+
+                        ._2ftrarea._2dsplyflex.pad10(style="padding-bottom: 0px; padding-left: 0px;")
+                            ._2lkhldr(ng-if="isLoggedIn === true")
+                                a.btn-flat._2altrbtn._2padlftrght._2rnddcnrs.tooltipped(class="{{p.postBtnClassId}}" id="{{p.postButtonId}}" data-post-user-id="{{p.user_id}}" data-post-id="{{p.id}}" data-sess-user-id="{{id}}" data-gist-id="" data-delay="50" data-position="top" data-tooltip="{{p.likes}} likes")
+                                    span#count-like(style="margin-right: 5px;")
+                                        |{{p.likes}}
+                                    i.material-icons.dflt-fnt-sze thumb_up
+
+                                span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                            //._2lkhldr
+                            //    a.dropdown-button._2rnddcnrs.materialize-red-text.tooltipped#share-btn(data-activates="postShareDrop-{{p.unique_id}}" data-delay="50" data-position="top" data-tooltip="{{p.shares}} shares")
+                            //        span#share-count.grey-text(style="margin-right: 5px;")
+                            //            |{{p.shares}}
+                            //        i.material-icons.dflt-fnt-sze share
+                            //
+                            //    //Dropdown Structure
+                            //    ul.dropdown-content(id="postShareDrop-{{p.unique_id}}" style="width: auto !important;")
+                            //        li
+                            //            a(href="https://www.facebook.com/sharer/share.php?u={{gistData.location}}" target="_blank" data-delay="50" data-position="right" data-tooltip="share to facebook").tooltipped.blue-text.text-darken-4 Facebook
+                            //        li
+                            //            a(href="" target="_blank" data-delay="50" data-position="right" data-tooltip="share to twitter").tooltipped.blue-text.text-lighten-2 Twitter
+                            //        li
+                            //            a(href="" target="_blank" data-delay="50" data-position="right" data-tooltip="share to google+").tooltipped.red-text.text-darken-4 Google+
+                            //
+                            //    span.bull(ng-if="isLoggedIn === true" style="margin: 0 10px 0 10px;") &bull;
+
+                            ._2lkhldr(ng-if="isLoggedIn === true")
+                                a.btn-flat._2altrbtn._2padlftrght._2rnddcnrs.green-text.darken-2.tooltipped.role(id="quote-{{p.id}}" data-gist-id="{{gistData.id}}" data-purpose="{{p.id}}" data-purposeful="{{p.user_id}}"  data-sess="{{id}}" data-modal-role="quote" data-delay="50" data-position="top" data-tooltip="Quote")
+                                    i.material-icons.dflt-fnt-sze reply
+                                    |quote
+
+                                span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                            ._2lkhldr(ng-if="isLoggedIn === true")
+                                button.btn-flat._2altrbtn._2padlftrght._2rnddcnrs.amber-text.accent-1.tooltipped(ng-click="editGist(p.id, 'post')" href="#editGist" ng-if="superUser || p.isAdmin === true" data-delay="50" data-position="top" data-tooltip="Edit")
+                                    i.material-icons.dflt-fnt-sze mode_edit
+                                    |edit
+
+                                //span.bull(style="margin: 0 10px 0 10px;") &bull;
+
+                            ._2lkhldr(ng-if="isLoggedIn === true")
+                                a.dropdown-button.btn-flat._2padlftrght._2rnddcnrs.materialize-red-text.tooltipped#report-btn(ng-if="p.isAdmin === false" data-activates="reportDrop-{{p.id}}" data-delay="50" data-position="top" data-tooltip="Report")
+                                    i.material-icons(style="width: 20px !important;") more_horizontal
+
+                                //Dropdown Structure
+                                ul.dropdown-content(id="reportDrop-{{p.id}}" role="menu" data-p-Id="{{p.id}}" data-sess="{{id}}" data-post_user="{{p.user_id}}" style="width: auto !important;")
+                                    li
+                                        a(href="#_=_" data-case="inappropriate" id="case--inappropriate") inappropriate
+                                    li
+                                        a(href="#_=_" data-case="spam" id="case--spam") it's Spam
+                                    li
+                                        a(href="#_=_" data-case="insult" id="case--insult") Insult
+                                    li.divider
+                                    li
+                                        a(href="#_=_" data-case="copy-link" id="case--copy-link") Copy Link
+
+
+                #lastPost(data-last="{{p.id}}" data-gistLast="{{gistData.id}}" style="display: none;")
+            div(ng-if="noMorePosts === false")
+                .col.s3
+                button#loadmoreBtn.btn.waves-effect.col.s6._2grdntbg(ng-click="loadMore()" ng-hide="busy") load more
+                .col.s3
+
+            // Preloader
+            ._2alncnbtr(ng-show="busy")
+                .preloader-wrapper.small.active
+                    .spinner-layer.spinner-blue
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-red
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-yellow
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+                    .spinner-layer.spinner-green
+                        .circle-clipper.left
+                            .circle
+                        .gap-patch
+                            .circle
+                        .circle-clipper.right
+                            .circle
+
+
+    //include ../partials/box-pop
+
+    .fixed-action-btn._2swcthbyscrnsz(ng-if="isLoggedIn === true")
+        a.btn-floating.btn-large.waves-effect.waves-light._2grdntbg.btn._2shwmdl.tooltipped.role(data-modal-role="post" data-delay="50" data-position="left" data-tooltip="Add Post" data-gist-id="{{gistData.id}}" data-gist-user-id="{{gistData.user_id}}" data-sess="{{id}}")
+            i.material-icons add
+
+    #editGist.modal.modal-fixed-footer(ng-if="superUser || gistData.isAdmin === true")
+        .modal-content
+            h4 Edit
+            .editText(contenteditable="true")#editText
+        .modal-footer
+            a(ng-click="updateGist()").waves-effect.waves-green.btn-flat save
+            a(ng-click="emptyEditor()")#cancl.modal-action.modal-close.waves-effect.waves-green.btn-flat cancel
+
+    //span#viewsData(style="display: none" data-gist-id="{{gistData.id}}")
+    //script(src="/docs/js/gist.views.js")
+    //end gist page view
+    //kira kosarin

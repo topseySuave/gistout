@@ -1,0 +1,70 @@
+//Created by Daniel on 6/30/2017.
+.row(ng-controller="hotGistsController" style="position: relative;")
+    // Preloader
+    ._2alncnbtr(ng-show="busy")
+        .preloader-wrapper.active
+            .spinner-layer.spinner-blue
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-red
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-yellow
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-green
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+
+
+    .col.s12.m6.l6(ng-repeat="gist in gists" on-finish-render="ngRepeatFinished" data-id="{{gist.id}}" style="")
+        .card.horizontal
+            .card-image._2crdimgmx(ng-show="gist.hasImage" style="background-image: url({{gist.image}}{{cacheBustParam}});")
+                a(href="gist/{{gist.id}}/{{gist.title | permalink}}")
+                    ._2trnsbg
+                    //img.scale(src="{{gist.image}}" alt="{{gist.title}}")
+            .card-content
+                p._2fntwht
+                    a.truncate(href="gist/{{gist.id}}/{{gist.title | permalink}}") {{gist.title}}
+                span.card-title._2cptlz.pad10._2fly
+                    a(href="profile/{{gist.username | permalink}}") {{gist.username}}
+                    br
+                    span.small {{gist.created}}
+                    //abbr.timeago(title="{{gist.created}}") {{gist.created}}
+                    a(href="profile/{{gist.username | permalink}}")
+                        //div._2cnvsbg._2grdntbg
+                        img._2rndd(src="{{gist.userAvatar}}{{cacheBustParam}}" alt="{{gist.username}}" style="width: 30px; height: 30px;")
+                    ._2gstinfhldr
+                        span
+                            i.hide-on-med-and-up {{gist.posts}}
+                            i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.posts}} posts") chat_bubble_outline
+                        span
+                            i.hide-on-med-and-up {{gist.views}}
+                            i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.views}} views") visibility
+
+    div(ng-if="noMoreGists === false")
+        .col.s3
+        button.btn.waves-effect.col.s6._2grdntbg(ng-click="loadMoreHotGists()" ng-hide="busy") load more
+        .col.s3
+
+    p(ng-if="noHotGist === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+        i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+        br
+        | No Hot gist
+//end home section

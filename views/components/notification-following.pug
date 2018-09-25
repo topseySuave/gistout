@@ -1,0 +1,31 @@
+//Created by Daniel on 6/30/2017.
+//follow and follwers page
+.row(ng-controller="fwgCntrllr" style="position: relative;")
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") profile
+                a.breadcrumb(href="profile/{{username}}") {{username}}
+                a.breadcrumb(href="#") following
+
+    .col.s12.m12.l12
+        .card(ng-hide="{{noData}}")
+            ul.collection(style="padding: 10px 0;overflow: visible;")
+                li.collection-item.avatar(id="list-group-{{n.id}}" ng-repeat="n in fng" on-finish-render="ngRepeatFinished" style="min-height: 70px !important;padding-left: 72px;")
+                    a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped.waves-effect(ng-hide="n.following" id="{{n.followerBtnId}}" data-role="user" data-purpose="{{n.purpose}}" data-sess="{{id}}" data-follow="{{n.followersId}}" data-tooltip="{{n.followerBtnText}} {{n.followersUsername}}" data-activates="tooltip" data-position="top" data-delay="50")
+                        i.material-icons {{n.followerBtnIcon}}
+                    //a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped(id="unfollowing-btn" data-tooltip="UnFollow {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50" data-role="user" data-purpose="unfollow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}")
+                    //    i.material-icons person_add
+                    a(href="profile/{{n.followersUsername}}")
+                        img(ng-src="{{n.followersUserAvatar}}{{cacheBustParam}}" alt="").circle
+                        small.title.brown-text.bolder @{{n.followersUsername}}
+                    p(ng-if="isLoggedIn === true") {{n.statusText}}
+                        span.grey-text {{n.time}}
+
+        p(ng-show="{{noData}}" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+            i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+            br
+            | You have no Following
+
+//end follow and follwers page

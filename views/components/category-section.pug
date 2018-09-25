@@ -1,0 +1,47 @@
+//Created by Daniel on 6/30/2017.
+
+//category Section
+.row(ng-controller="ctgryLstCntrllr")
+    .col.s12.m12.l12(style="position: relative;")
+        // Preloader
+        //._2alncnbtr._2abslloadr(ng-show="busy")
+        //    .preloader-wrapper.active
+        //        .spinner-layer.spinner-blue
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-red
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-yellow
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-green
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+
+        .gist-category-img-block
+            section.category-main
+                ul.ch-grid
+                    .col.s6.l4(ng-repeat="cat in c")
+                        li
+                            .ch-item.ch-img-1(style="background-image: url(/{{cat.icon | permalink}}); background-size: cover; background-repeat: no-repeat;")
+                                .ch-info
+                                    a(href="category/{{cat.title | permalink}}")
+                                        h3 {{cat.title}}
+//end category section

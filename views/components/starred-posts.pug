@@ -1,0 +1,29 @@
+//Created by Daniel on 7/12/2017.
+div(ng-controller="stpCntrllr" style="position: relative;")
+    //gist page view
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") profile
+                a.breadcrumb(href="profile/{{username}}") {{username}}
+                a.breadcrumb.active(href="#") starred posts
+
+    .row
+        .col.s12.m12.l12
+            .card(ng-if="noData === false")
+                ul.collection(style="padding: 10px 0;overflow: visible;")
+                    li.collection-item.avatar(id="list-group-{{p.id}}" ng-repeat="p in stps | limitTo: 20" on-finish-render="ngRepeatFinished")
+                        a.secondary-content.tooltipped(id="{{p.starredBtn}}" data-tooltip="{{p.starredBtnText}}" data-activates="tooltip" data-position="bottom" data-delay="50")
+                            i.material-icons(style="color: {{p.postUserColor}};") {{p.starredBtnIcon}}
+
+                        a(href="profile/{{p.postUsername}}")
+                            //img(src="/{{p.postUserAvatar}}" alt="{{p.postUsername}}").circle
+                            small.title.bolder(style="color: {{p.postUserColor}};") @{{p.postUsername}} - {{p.postCreated}}
+
+                        article(ng-bind-html="p.postContent")
+
+            p(ng-if="noData === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+                br
+                | You have no Following

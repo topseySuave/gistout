@@ -1,0 +1,56 @@
+//Created by Daniel on 7/28/2017.
+
+._2bxpophlder#box-pop
+    .card.modal-content.noMargin(style="padding-top: 1px;")
+        //h4.pad10.noMargin#myModalLabel
+        .row.noMargin
+            form#contentData(method="post").col.s12.no-pad
+                .col.s12.qt-hldr-prnt
+                    #qoute-holder
+                    //end quote-holder
+                .input-field.col.s12#gist-title-input
+                    input#gistTitle.validate(type="text" name="gistTitle" placeholder="Enter Title. Shouldn't be to long")
+                .input-field.col.s12.no-pad.noMargin
+                    .Editor-container.row.noMargin(style="max-height: 300px; position: relative;")
+                        .col.s2.no-pad(style="width: auto;")
+                            a.btn-flat.waves-effect#imgBtn
+                                i.material-icons panorama
+                            input#imgContent.hide(type="file" name="imgFile" accept="image/png, image/jpg, image/jpeg, image/gif")
+                            ._2squrbxprvw.materialboxed(style="background-image: url();")
+                        .col.s8.pad10.Editor-mod
+                            #postArea.Editor-editor.pad10(contenteditable="true" placeholder="You post goes here" style="height: inherit;")
+
+                        .col.s2.no-pad
+                            button#add_post(ng-click="addPost()" ng-bind-html="btnText").modal-action.btn._2grdntbg.waves-effect.right-align
+                        //input#outputArea(type="text")
+                input#resetContentData.hide(type="reset" value="Reset")
+.wdt-emoji-popup
+    a.wdt-emoji-popup-mobile-closer(href="#") ×
+    #wdt-emoji-menu-content
+        #wdt-emoji-menu-header
+            a.wdt-emoji-tab.active(data-group-name="Recent")
+            a.wdt-emoji-tab(data-group-name="People")
+            a.wdt-emoji-tab(data-group-name="Nature")
+            a.wdt-emoji-tab(data-group-name="Foods")
+            a.wdt-emoji-tab(data-group-name="Activity")
+            a.wdt-emoji-tab(data-group-name="Places")
+            a.wdt-emoji-tab(data-group-name="Objects")
+            a.wdt-emoji-tab(data-group-name="Symbols")
+            a.wdt-emoji-tab(data-group-name="Flags")
+            a.wdt-emoji-tab(data-group-name="Custom")
+        .wdt-emoji-scroll-wrapper
+            #wdt-emoji-menu-items
+                input#wdt-emoji-search(type="text" placeholder="Search")
+                h3#wdt-emoji-search-result-title Search Results
+                .wdt-emoji-sections
+                #wdt-emoji-no-result No emoji found
+        #wdt-emoji-footer
+            #wdt-emoji-preview
+                span#wdt-emoji-preview-img
+                #wdt-emoji-preview-text
+                    span#wdt-emoji-preview-name
+                    span#wdt-emoji-preview-aliases
+            #wdt-emoji-preview-bundle
+                span WDT Emoji Bundle
+                
+

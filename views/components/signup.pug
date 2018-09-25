@@ -1,0 +1,44 @@
+script(src="lib/js/signin.js")
+.row._2padd4signin
+    .col.s12.l12
+        span.center._2cntrlze-o-s
+            img(src="/docs/img/logo/site_logo.png" width="100%")
+        .card._2padd4signin.relative#registerArea
+            h5.center-align Sign Up
+            form#registerForm
+                .row
+                    .input-field.col.s12
+                        input#regFullnameInput(type="text" name="name").validate
+                        label(for="regFullnameInput") Full name
+
+                    .input-field.col.s12
+                        input#regUsernameInput(type="text" name="username").validate
+                        label(for="regUsernameInput") Username
+
+                    .input-field.col.s12
+                        input#regEmailInput(type="email" name="email" style="margin-bottom: 0px !important;").validate
+                        label(for="regEmailInput") Email
+                        small(id="emailHelp" class="form-text text-muted" style="font-size: xx-small; color: #CCC !important;") We'll never share your email with anyone else.
+
+                    .input-field.col.s12
+                        input#regPasswordInput(type="password" name="password").validate
+                        label(for="regPasswordInput") Password
+
+                    .input-field.col.s12
+                        input#confirmPasswordInput(type="password" name="confirmPassword").validate
+                        label(for="confirmPasswordInput") Confirm Password
+
+                    .input-field.col.s12.noMargin
+                        input#acceptTermCheck(name="acceptTerms" type="checkbox")
+                        label(for="acceptTermCheck" style="top: 0;") by clicking This you agree to our
+                            |
+                            |
+                            a(href="terms-of-service") terms
+
+                    .input-field.col.s12
+                        button.waves-effect.col.s12.btn.blue#signUpSubmitBtn(type="submit") sign up
+
+                    .input-field.col.s12.noMargin
+                        p.center Already have an account?
+                            |
+                            a(href='signin')#signInButton Sign In

@@ -1,0 +1,16 @@
+//Created by Daniel on 8/1/2017.
+//script(src="lib/js/signin.js")
+.row._2padd4signin
+    .col.s12.l12
+        span.center._2cntrlze-o-s
+            img(src="/docs/img/logo/site_logo.png" width="100%")
+        .card._2padd4signin.relative#forgotPasswordArea
+            h5.center-align Recover Password
+            form#resetForm
+                .row
+                    .input-field.col.s12
+                        input#recoverEmailInput(name="email" type="email").validate
+                        label(for="recoverEmailInput") Email
+
+                    .input-field.col.s12
+                        button.waves-effect.col.s12.btn.blue#resetSubmitBtn(type="submit" name="signInSubmit") Reset

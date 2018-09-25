@@ -1,0 +1,29 @@
+//Created by Daniel on 7/12/2017.
+
+div(ng-controller="tgCntrllr" style="position: relative;")
+    //gist page view
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") tag
+                a.breadcrumb(href="tag/{{tag}}") {{tag}}
+
+    .row
+        .col.s12.m12.l12
+            .card(ng-hide="noData")
+                ul.collection(style="padding: 10px 0;overflow: visible;")
+                    li.collection-item.avatar(id="list-group-{{p.id}}" ng-repeat="p in tagPosts | limitTo: 20" on-finish-render="ngRepeatFinished")
+                        a.secondary-content.tooltipped(id="{{p.starredPostBtnId}}" data-tooltip="{{p.starredPostBtnText}}" data-activates="tooltip" data-position="bottom" data-delay="50")
+                            i.material-icons(style="color: {{p.postUserColor}};") {{p.starredPostBtnIcon}}
+
+                        a(href="profile/{{p.postUsername}}")
+                            //img(src="/{{p.postUserAvatar}}" alt="{{p.postUsername}}").circle
+                            small.title.bolder(style="color: {{p.postUserColor}};") @{{p.postUsername}} - {{p.created}}
+
+                        article(ng-bind-html="p.content")
+
+            p(ng-show="noData" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+                br
+                | This Tag is Empty

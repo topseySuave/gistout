@@ -1,0 +1,76 @@
+//Created by Daniel on 7/8/2017.
+
+.row(ng-controller="ntCntrllr" style="position: relative;")
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") profile
+                a.breadcrumb(href="profile/{{username}}") {{username}}
+                a.breadcrumb(href="profile/{{username}}/notification") notification
+
+    .col.s12.m12.l12
+        // Preloader
+        ._2alncnbtr(ng-show="busy")
+            .preloader-wrapper.small.active
+                .spinner-layer.spinner-blue
+                    .circle-clipper.left
+                        .circle
+                    .gap-patch
+                        .circle
+                    .circle-clipper.right
+                        .circle
+                .spinner-layer.spinner-red
+                    .circle-clipper.left
+                        .circle
+                    .gap-patch
+                        .circle
+                    .circle-clipper.right
+                        .circle
+                .spinner-layer.spinner-yellow
+                    .circle-clipper.left
+                        .circle
+                    .gap-patch
+                        .circle
+                    .circle-clipper.right
+                        .circle
+                .spinner-layer.spinner-green
+                    .circle-clipper.left
+                        .circle
+                    .gap-patch
+                        .circle
+                    .circle-clipper.right
+                        .circle
+
+        .card(ng-hide="noData")
+            ul.collection(style="padding: 10px 0;overflow: visible;")
+                li.collection-item.avatar(id="list-group-{{n.id}}" ng-repeat="n in nots" on-finish-render="ngRepeatFinished" style="min-height: 70px !important; padding-left: 72px;")
+                    a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped.waves-effect(ng-show="n.following" id="{{n.followBtnId}}" data-role="user" data-purpose="follow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}" data-tooltip="{{n.followText}} {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50")
+                        i.material-icons {{n.followBtnIcon}}
+                    //a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped(id="unfollowing-btn" data-tooltip="UnFollow {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50" data-role="user" data-purpose="unfollow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}")
+                    //    i.material-icons person_add
+                    a(href="profile/{{n.senderName}}")
+                        img(ng-src="{{n.senderAvatar}}{{cacheBustParam}}" alt="").circle
+                        small.title.brown-text.bolder @{{n.senderName}}
+                    p(ng-if="isLoggedIn === true") {{n.statusText}}
+                        |
+                        |
+                        a(href="gist/{{n.gist_id}}/{{n.gistTitle | permalink}}" ng-if="n.gistRelated === true") "{{n.gistTitle}}"
+                        //Display Quote Content
+                        ul.collection.qouted(ng-if="n.postRelated === true" style="border-left: 3px solid {{n.postUserColor}}; overflow: visible;")
+                            li.collection-item.avatar(on-finish-render="ngRepeatFinished" style="padding-top: 0px; min-height: 10px;")
+                                a(href="profile/{{n.postUsername}}")
+                                    //img(src="/{{p.quoteUserAvatar}}" alt="{{p.quoteUsername}}").circle
+                                    small.title(style="color: {{n.postUserColor}};") @{{n.postUsername}} - <small>{{n.postCreated}}</small>
+                                article(ng-bind-html="n.postContent" style="margin-top: 10px;")
+                        |
+                        |
+                        span.grey-text
+                            |
+                            |{{n.time}}
+
+        p(ng-show="noData" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+            i.material-icons(style="color: #CCC;font-size:80px;") notifications_off
+            br
+            |You have no Notification
+//end notification page

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.gistout.com/</loc>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/signup</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/signin</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/recovery</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/terms-of-service</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/birthday</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/category/</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/gist/</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/profile/</loc>
+    </url>
+    <url>
+        <loc>https://www.gistout.com/tag/</loc>
+    </url>
+</urlset>

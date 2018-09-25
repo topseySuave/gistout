@@ -1,0 +1,97 @@
+//Created by Daniel on 6/30/2017.
+
+.row(ng-if="isLogInPage === false")
+    //top users card
+    ul(ng-if="noTu === false && isLoggedIn === true")
+        li._2tpusrsgrdhdr.center.pad10.grey-text
+            h5(style="font-size: 20px;") Top users of the week
+            | Get featured here with <span class="black-text">5k</span> more people
+        ul._2tpusrsgrd
+            li
+                a(href="#featured-previewer")
+                    img(src="{{profile_img}}{{cacheBustParam}}" alt="{{username}}")
+                    span._2ftrbtnarea._2trnsprntblckbg.waves-effect
+            li.tooltipped(ng-repeat="u in tu | limitTo: 8" data-position="top" data-delay="0" data-tooltip="{{u.username}}")
+                a(href="profile/{{u.username}}")
+                    img(ng-src="{{u.user_avatar}}" alt="{{u.username}}")
+                    span._2onlnindctr.green(ng-if="u.indInfo === 'online'")
+                    span._2onlnindctr.red(ng-if="u.indInfo === 'offline'")
+
+    // Weather indicator
+    .card._2adspc(ng-if="weatherReady === false")
+        .card-image
+            img(src="lib/img/weather-bg.jpg")
+            span.card-title._2whtrbnnr(style="font-weight: lighter;")
+                h1._2dgr._2txtshdw(style="font-weight: lighter;margin: 10px 0px;")
+                    i.wi.wi-day-sleet._2txtshdw(style="margin-right: 10px;")
+                    |{{weatherTemp}}<sup>o</sup>C
+                h4._2txtshdw(style="font-weight: lighter;") {{weatherStateName}}, {{weatherCntCode}}
+                h6._2txtshdw(style="font-weight: lighter;") {{dateTime}}
+
+    //Add Banner
+    .card._2adspc(ng-if="noAd === false")
+        a(href="{{ad.href}}")
+            .card-image
+                img(src="/{{ad.image}}")
+                span.card-title Sponsored
+
+    // Top Categories
+    .card._2adspc
+        ul.collection.with-header.categories
+            li.collection-header
+                h6.bolder Top Categories
+            li.collection-item(ng-repeat="c in cat | limitTo: 5")
+                a(href="category/{{c.title | permalink}}").black-text {{c.title}}
+                    //{{imgOptim('crop')}}{{httpUri}}
+                    img.secondary-content._2rndd(src="{{c.icon}}" style="width: 30px; height: 30px;")
+            li.collection-header(style="text-align: center;")
+                a.black-text.bolder(href="category") view all categories
+
+    // Trending Hashtags
+    .card._2adspc(ng-if="noTh === false")
+        ul.collection.with-header(style="padding-bottom: 10px;")
+            li.collection-header
+                h6.bolder Trending Hashtags
+            li.collection-item._2hasharea(ng-repeat="ht in th | limitTo: 15" style="padding: 5px 0px 0px 5px;float:left;border-bottom:0px;margin: 8px;")
+                div.waves-effect(style="color: black;padding: 3px 10px;border-radius: 25px;background-color: whitesmoke;")
+                    a(href="tag/{{ht.hashtag | permalink}}" style="color: {{ht.color}};") {{ht.hash}}{{ht.hashtag}}
+
+    // Related Gists
+    .card._2adspc(ng-if="noRg === false")
+        ul.collection.with-header
+            li.collection-header
+                h6.bolder Related Gists
+            li.collection-item(ng-repeat="g in relatedGists")
+                a.secondary-content(ng-bind="g.title" href="gist/{{g.id}}/{{g.title | permalink}}" style="float: none; display: block;")
+                    //img._2rndd(src="lib/img/yuna.jpg" style="width: 30px; height: 30px;")
+
+    // Top Categories
+    div(ng-if="noDob === false")
+        .card._2adspc(ng-hide="isBDayPage")
+            ul.collection.with-header.categories
+                li.collection-header
+                    h6.bolder Todays Birthdays
+                li.collection-item(ng-repeat="b in dob")
+                    div
+                        a(href="profile/{{b.username}}").black-text {{b.username}}
+                        a.secondary-content(href="profile/{{b.username}}")
+                            //p {{b.age}}
+                            img._2rndd(src="/{{b.user_avatar}}" style="width: 30px; height: 30px;")
+                li.collection-header(style="text-align: center;")
+                    a.black-text.bolder(href="birthday") view all
+
+    .container._2footer
+        ul
+            li
+                a(href="#") jobs &bull;
+            li
+                a(href="#") Advertise &bull;
+            li
+                a(href="#") blogs &bull;
+            li
+                a(href="#") users &bull;
+            li
+                a(href="terms-of-service") terms of service
+            li
+                a(href="#" style="padding: 4px;")
+                    img._2greyscale(ng-src="/docs/img/logo/site_logo.png" style="width: 30px;height: 30px;")

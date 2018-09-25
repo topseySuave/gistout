@@ -1,0 +1,179 @@
+//Created by Daniel on 6/30/2017.
+
+div(ng-controller="ctgryGstCntrllr" style="position: relative;")
+    //category gist view
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="category") Category
+                a.breadcrumb(href="category/{{cl.title | permalink}}") {{cl.title}}
+    //home section
+    .row(ng-if="emptyCat === false" style="margin-top: -100px;")
+        .col.s12.m12.l12
+            .card(style="background-image: url(/{{cl.icon}}); background-repeat: no-repeat; background-position: 50% 50%; background-size: 103%;")
+                h3._2fntsze.pad10.white-text.no-margin._2txtshdw {{cl.title}}
+                ul.tabs._2ovrflwhddn
+                    li.tab.col.s3
+                        a.teal-text(href="#lastUpdated") Last Updated
+                    li.tab.col.s3
+                        a.teal-text(href="#hot") Hot
+                    li.tab.col.s3
+                        a.teal-text(href="#trending") Trending
+                    li.tab.col.s3
+                        a.teal-text(href="#all") All
+
+        // Preloader
+        //._2alncnbtr._2abslloadr(ng-show="busy")
+        //    .preloader-wrapper.active
+        //        .spinner-layer.spinner-blue
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-red
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-yellow
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+        //        .spinner-layer.spinner-green
+        //            .circle-clipper.left
+        //                .circle
+        //            .gap-patch
+        //                .circle
+        //            .circle-clipper.right
+        //                .circle
+
+        #hot
+            .col.s12.m6.l6(ng-if="noHotGist === false" ng-repeat="h in hg" on-finish-render="ngRepeatFinished" data-id="{{h.id}}" style="")
+                .card.horizontal
+                    .card-image._2crdimgmx(ng-if="h.hasImage === true" style="background-image: url({{h.image}}{{cacheBustParam}});")
+                        a(href="gist/{{h.id}}/{{h.title | permalink}}")
+                            ._2trnsbg
+                            //img.scale(src="{{h.image}}")
+                    .card-content
+                        p._2fntwht.truncate
+                            a(href="gist/{{h.id}}/{{h.title | permalink}}") {{h.title}}
+                        span.card-title._2cptlz.pad10._2fly
+                            a(href="profile/{{h.username | permalink}}") {{h.username}}
+                            br
+                            span.small {{h.created}}
+                            //abbr.timeago(title="{{h.created}}") {{h.created}}
+                            a(href="profile/{{h.username | permalink}}")
+                                img._2rndd(src="{{h.userAvatar}}" style="width: 30px; height: 30px;")
+                            ._2gstinfhldr
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{h.posts}} posts") chat_bubble_outline
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{h.views}} views") visibility
+
+            p(ng-if="noHotGist === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                br
+                | No Hot gist
+
+        #trending
+
+            .col.s12.m6.l6(ng-if="noTrendingGist === false"  ng-repeat="t in tg" on-finish-render="ngRepeatFinished" data-id="{{t.id}}" style="")
+                .card.horizontal
+                    .card-image._2crdimgmx(ng-if="t.hasImage === true" style="background-image: url({{t.image}}{{cacheBustParam}});")
+                        a(href="gist/{{t.id}}/{{t.title | permalink}}")
+                            ._2trnsbg
+                            //img.scale(src="{{t.image}}")
+                    .card-content
+                        p._2fntwht.truncate
+                            a(href="gist/{{t.id}}/{{t.title | permalink}}") {{t.title}}
+                        span.card-title._2cptlz.pad10._2fly
+                            a(href="profile/{{t.username | permalink}}") {{t.username}}
+                            br
+                            span.small {{t.created}}
+                            //abbr.timeago(title="{{t.created}}") {{t.created}}
+                            a(href="profile/{{t.username | permalink}}")
+                                img._2rndd(src="{{t.userAvatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                            ._2gstinfhldr
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{t.posts}} posts") chat_bubble_outline
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{t.views}} views") visibility
+
+            p(ng-if="noTrendingGist === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                br
+                | No Trending gist
+
+        #lastUpdated
+
+            .col.s12.m6.l6(ng-if="noLastUpGist === false" ng-repeat="lu in lug" on-finish-render="ngRepeatFinished" data-id="{{lu.id}}" style="")
+                .card.horizontal
+                    .card-image._2crdimgmx(ng-show="lu.hasImage" style="background-image: url({{lu.image}}{{cacheBustParam}});")
+                        a(href="gist/{{lu.id}}/{{lu.title | permalink}}")
+                            ._2trnsbg
+                            //img.scale(src="{{lu.image}}")
+                    .card-content
+                        p._2fntwht.truncate
+                            a(href="gist/{{lu.id}}/{{lu.title | permalink}}") {{lu.title}}
+                        span.card-title._2cptlz.pad10._2fly
+                            a(href="profile/{{lu.username | permalink}}") {{lu.username}}
+                            br
+                            span.small {{lu.created}}
+                            //abbr.timeago(title="{{lu.created}}") {{lu.created}}
+                            a(href="profile/{{lu.username | permalink}}")
+                                img._2rndd(src="{{lu.userAvatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                            ._2gstinfhldr
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{lu.posts}} posts") chat_bubble_outline
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{lu.views}} views") visibility
+
+            p(ng-if="noLastUpGist === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                br
+                | No Last Updated gist
+
+        #all
+
+            .col.s12.m6.l6(ng-if="noGist === false" ng-repeat="a in ag" on-finish-render="ngRepeatFinished" data-id="{{a.id}}" style="")
+                .card.horizontal
+                    .card-image._2crdimgmx(ng-if="a.hasImage === true" style="background-image: url({{a.image}}{{cacheBustParam}});")
+                        a(href="gist/{{a.id}}/{{a.title | permalink}}")
+                            ._2trnsbg
+                            //img.scale(src="{{a.image}}")
+                    .card-content
+                        p._2fntwht.truncate
+                            a(href="gist/{{a.id}}/{{a.title | permalink}}") {{a.title}}
+                        span.card-title._2cptlz.pad10._2fly
+                            a(href="profile/{{a.username | permalink}}") {{a.username}}
+                            br
+                            span.small {{a.created}}
+                            //abbr.timeago(title="{{a.created}}") {{a.created}}
+                            a(href="profile/{{a.username | permalink}}")
+                                img._2rndd(src="{{a.userAvatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                            ._2gstinfhldr
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{a.posts}} posts") chat_bubble_outline
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{a.views}} views") visibility
+
+            p(ng-if="noGist === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                br
+                | No gist
+
+    p(ng-if="emptyCat === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+        i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+        br
+        | Empty Category
+
+
+    .fixed-action-btn._2swcthbyscrnsz(ng-if="isLoggedIn === true")
+        a.btn-floating.btn-large.waves-effect.waves-light._2grdntbg.btn._2shwmdl.tooltipped.role(id="compose-btn" data-cat-id="{{cl.id}}" data-sess="{{id}}" data-modal-role="gist" data-delay="50" data-position="left" data-tooltip="Add Gist")
+            i.material-icons edit
+
+    //include ../partials/box-pop
+    //script(src="/docs/js/gist.cat.views.js")
+    //span#catViewsData(style="display: none" data-cat-id="{{cl.id}}")
+
+    //end category gist view

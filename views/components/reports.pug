@@ -1,0 +1,79 @@
+//Created by Daniel on 7/8/2017.
+
+.row(ng-controller="rprtCntrllr")
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="/dashboard") Dashboard
+                a.breadcrumb(href="dashboard/report") report
+
+    // Preloader
+    ._2alncnbtr(ng-hide="isLoaded")
+        .preloader-wrapper.active
+            .spinner-layer.spinner-blue
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-red
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-yellow
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-green
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                        .circle
+
+    .col.s12.m12.l12
+        .card(ng-show="isLoaded || noData === false")
+            ul.collection(style="padding: 10px 0;overflow: visible;")
+                li.collection-item.avatar(id="list-group-{{report.id}}" ng-repeat="report in reports" on-finish-render="ngRepeatFinished" style="min-height: 70px !important; padding-left: 72px;")
+                    a(href="profile/{{user.username | permalink}}" ng-repeat="user in report.user.users")
+                        img(ng-src="{{user.user_avatar}}{{cacheBustParam}}" alt="{{user.username}}").circle
+                        small.title.bolder(style="color: {{user.color}};") @{{user.username}}
+                    p(ng-repeat="p in report.post.posts") reported
+                        |
+                        |<br>
+                        a(href="profile/{{postUser.username | permalink}}" ng-repeat="postUser in report.postUser.users")
+                            img(ng-src="{{postUser.user_avatar}}{{cacheBustParam}}" alt="{{postUser.username}}").circle
+                            small.title.bolder(style="color: {{postUser.color}};") @{{postUser.username}}
+                        |
+                        |
+                        |On a {{report.report_enum}}, based on an <b>{{report.report_specs}}</b>
+                        |
+                        |
+                        //a(href="gist/{{n.gist_id}}/{{n.gistTitle | permalink}}" ng-if="n.gistRelated === true") "{{n.gistTitle}}"
+                        //Display Quote Content
+                        ul.collection.qouted(style="border-left: 3px solid {{postUser.color}}; overflow: visible;")
+                            li.collection-item.avatar(on-finish-render="ngRepeatFinished" style="padding-top: 0px; min-height: 10px;")
+                                a(href="gist/{{}}/{{postUser.username}}")
+                                    //img(src="/{{p.quoteUserAvatar}}" alt="{{p.quoteUsername}}").circle
+                                    //small.title(style="color: {{n.postUserColor}};") @{{n.postUsername}} - <small>{{n.postCreated}}</small>
+                                    article(ng-bind-html="p.content" style="margin-top: 10px;")
+                        |
+                        |
+                        span.grey-text
+                            |
+                            | {{p.created}}
+
+        p(ng-show="noData" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+            i.material-icons(style="color: #CCC;font-size:80px;") notifications_off
+            br
+            |No Notification
+//end notification page

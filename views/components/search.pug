@@ -1,0 +1,96 @@
+//Created by Daniel on 7/23/2017.
+
+.row(ng-controller="srchCntrllr")
+    .card
+        h5.pad20.teal-text.no-margin._2txtshdw search results for "{{searchString}}"
+        ul.tabs._2ovrflwhddn
+            li.tab.col.s3
+                a.teal-text.accent-4(href="#users") users
+                    span.new.badge.red._2fltnone(ng-hide="noSearchUser") {{resUserLength}}
+            li.tab.col.s3
+                a.teal-text.accent-4(href="#posts") posts
+                    span.new.badge.red._2fltnone(ng-hide="noSearchPostData") {{resPostLength}}
+            li.tab.col.s3
+                a.teal-text.accent-4(href="#gists") gists
+                    span.new.badge.red._2fltnone(ng-hide="noSearchGistData") {{resGistLength}}
+            li.tab.col.s3
+                a.teal-text.accent-4(href="#tags") tags
+
+    .col.s12.m12.l12
+        #posts
+            p(ng-show="noSearchPostData" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+                br
+                | No search result for "{{searchString}}"
+
+            .card(ng-hide="noSearchPostData")
+                ul.collection(style="padding: 10px 0;overflow: visible;")
+                    li.collection-item.avatar(id="list-group-{{p.id}}" ng-repeat="p in searchPostData | limitTo: 10" on-finish-render="ngRepeatFinished")
+                        //a.secondary-content.tooltipped(id="{{p.starredBtn}}" data-tooltip="{{p.starredBtnText}}" data-activates="tooltip" data-position="bottom" data-delay="50")
+                        //    i.material-icons(style="color: {{p.postUserColor}};") {{p.starredBtnIcon}}
+
+                        a(href="profile/{{p.username}}")
+                            //img(src="/{{p.user_avatar}}" alt="{{p.username}}").circle
+                            small.title.bolder(style="color: {{p.color}};") @{{p.username}} - <small class="small">{{p.created}}</small>
+
+                        article(ng-bind-html="p.content")
+
+        #users
+            p(ng-show="noSearchUser" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+                br
+                | No search result for "{{searchString}}"
+
+            .card(ng-hide="noSearchUser")
+                ul.collection(style="padding: 10px 0;overflow: visible;")
+                    li.collection-item.avatar(id="list-group-{{n.id}}" ng-repeat="n in searchUserData" on-finish-render="ngRepeatFinished" style="min-height: inherit; padding-left: 72px;")
+                        a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped.waves-effect(ng-if="n.isAdmin === false" id="{{n.followBtnId}}" data-role="user" data-purpose="{{n.followPurpose}}" data-sess="{{id}}" data-follow="{{n.followersId}}" data-tooltip="{{n.followBtnText}} {{n.username}}" data-activates="tooltip" data-position="top" data-delay="50")
+                            i.material-icons {{n.followBtnIcon}}
+                        a(href="profile/{{n.username}}")
+                            img(ng-src="/{{n.user_avatar}}" alt="{{n.username}}").circle
+                            small.title.brown-text.bolder @{{n.username}}
+                        p {{n.fullname}}
+
+        #gists
+            p(ng-if="noSearchGistData === true" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                i.material-icons(style="color: #CCC;font-size:80px;") sentiment_dissatisfied
+                br
+                | No search result for "{{searchString}}"
+
+            .col.s12.m6.l6(ng-if="noSearchGistData === false" ng-repeat="gist in searchGistData" on-finish-render="ngRepeatFinished" data-id="{{gist.id}}" style="")
+                .card.horizontal
+                    .card-image._2crdimgmx(ng-show="gist.hasImage" style="background-image: url({{gist.image}}{{cacheBustParam}});")
+                        a(href="gist/{{gist.id}}/{{gist.title | permalink}}")
+                            ._2trnsbg
+                            img.scale(src="{{gist.image}}{{cacheBustParam}}" alt="{{gist.title}}")
+                    .card-content
+                        p._2fntwht
+                            a(href="gist/{{gist.id}}/{{gist.title | permalink}}") {{gist.title}}
+                        span.card-title._2cptlz.pad10._2fly
+                            a(href="profile/{{gist.username | permalink}}") {{gist.username}}
+                            br
+                            span.small {{gist.created}}
+                            //abbr.timeago(title="{{gist.created}}") {{gist.created}}
+                            a(href="profile/{{gist.username | permalink}}")
+                                //div._2cnvsbg._2grdntbg
+                                img._2rndd(src="{{gist.userAvatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                            ._2gstinfhldr
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.posts}} posts") chat_bubble_outline
+                                i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.views}} views") visibility
+
+
+        #tags
+        //.card(ng-hide="noData")
+        //    ul.collection(style="padding: 10px 0;overflow: visible;")
+        //        li.collection-item.avatar(id="list-group-{{n.id}}" ng-repeat="n in nots" on-finish-render="ngRepeatFinished" style="min-height: inherit;")
+        //            a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped.waves-effect(ng-show="n.following" id="{{n.followBtnId}}" data-role="user" data-purpose="follow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}" data-tooltip="{{n.followText}} {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50")
+        //                i.material-icons {{n.followBtnIcon}}
+        //            //a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped(id="unfollowing-btn" data-tooltip="UnFollow {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50" data-role="user" data-purpose="unfollow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}")
+        //            //    i.material-icons person_add
+        //            a(href="profile/{{n.senderName}}")
+        //                img(ng-src="/{{n.senderAvatar}}" alt="").circle
+        //                small.title.brown-text.bolder @{{n.senderName}}
+        //            p {{n.statusText}}
+        //                span.grey-text  - {{n.time}}
+
+//end notification page

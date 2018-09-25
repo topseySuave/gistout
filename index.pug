@@ -1,0 +1,26 @@
+doctype html
+<!-- Microdata markup added by Google Structured Data Markup Helper. -->
+html(lang="en" ng-app="gistInit")
+    head
+        title(ng-bind="pageTitle")
+        include views/header.mata-data.pug
+        include views/header-css-link
+        include views/header-scripts-tag
+    body(ng-controller="mnCntrllr" ng-cloak)
+        include views/components/top-nav
+        main
+            include views/components/side-nav
+            .row
+                //main content area
+                .col.s12.l8.no-pad-on-small
+                    div(ng-view autoscroll)
+                //right side bar area
+                .col.s12.l4
+                    include views/components/right-side-bar
+
+        include views/partials/featured
+        include views/partials/box-pop
+        //include views/header-scripts-bottom-tag
+        //script(type="text/javascript" src="lib/js/emoji.min.js")
+        //script(type="text/javascript" src="lib/js/wdt-emoji-bundle.min.js")
+    //._2loadingcover

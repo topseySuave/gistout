@@ -1,0 +1,147 @@
+//Created by Daniel on 6/30/2017.
+ul#slide-out.side-nav(ng-if="isLogInPage === false")
+    li(ng-if="isLoggedIn === false")
+        .userView
+            .background
+                img(style="width: 100%;" ng-src="lib/img/yuna.jpg" alt="sponsored")
+            //a(href="user")
+            //    img.circle._2crcl._2whtbrdd(ng-src="/{{profile_img}}")
+            a(href="#")
+                span.white-text.name
+            a(href="#")
+                span.white-text.name Sponsored
+
+    li(ng-if="isLoggedIn === true")
+        .userView
+            .background
+                img(style="width: 100%;" ng-src="{{profile_img}}{{cacheBustParam}}" alt="{{username}}")
+            a(href="profile/{{username}}")
+                img.circle._2crcl._2whtbrdd(ng-src="{{profile_img}}{{cacheBustParam}}")
+            a(href="profile/{{username}}")
+                span.white-text.name
+            a(href="profile/{{username}}")
+                span.white-text.name {{fullname}}
+                    p @{{username}}
+    li
+        a.waves-effect.red-text.darken-2(href="/")
+            i.material-icons.red-text.darken-3 home
+            |Home
+    li
+        a.waves-effect.orange-text.darken-3(href="category")
+            i.material-icons.orange-text.darken-3 view_modules
+            |Category
+    li.divider
+    div(ng-if="superUser === true")
+        li
+            a.waves-effect.teal-text(href="dashboard/report")
+                i.material-icons.teal-text notifications_none
+                | Report
+                //span.new.badge(ng-if="hasNoti === true") {{notificationCount}}
+
+        li.divider
+    #div(ng-if="isLoggedIn === true")
+        li
+            a.waves-effect.teal-text(href="profile/{{username}}/notification")
+                i.material-icons.teal-text notifications_none
+                |Notification
+                span.new.badge(ng-if="hasNoti === true") {{notificationCount}}
+        li
+            a.waves-effect.light-blue-text.accent-4(href="profile/{{username}}/followers")
+                i.material-icons.light-blue-text.accent-4 group_add
+                |Followers
+        li
+            a.waves-effect.indigo-text.darken-3(href="profile/{{username}}/following")
+                i.material-icons.indigo-text.darken-3 group
+                | Following
+        li.divider
+        li
+            a.waves-effect.amber-text.darken-3(href="profile/{{username}}/starred-posts")
+                i.material-icons.amber-text.darken-3 stars
+                | Starred posts
+        li
+            a.waves-effect.brown-text(href="profile/{{username}}")
+                i.material-icons.brown-text perm_identity
+                |View profile
+        li
+            a.waves-effect.blue-grey-text.darken-4(href="signout?redirect={{redirectAfterAuth}}")
+                i.material-icons.blue-grey-text.darken-4 settings_power
+                | Sign out
+    div.hide-on-med-and-up(ng-if="isLoggedIn === false")
+        li
+            a.btn-flat.waves-effect(href="signin/?redirect={{redirectAfterAuth}}") sign in
+        li
+            a.btn._2grdntbg.white-text.waves-effect(href="signup") sign up
+
+
+ul.side-nav.fixed._2tp(ng-if="isLogInPage === false")
+    li(ng-if="isLoggedIn === false")
+        .userView
+            .background
+                img(style="width: 100%;" ng-src="lib/img/yuna.jpg" alt="sponsored")
+            //a(href="user")
+            //    img.circle._2crcl._2whtbrdd(ng-src="/{{profile_img}}")
+            a(href="name")
+                span.white-text.name
+            a(href="name")
+                span.white-text.name Sponsored
+
+    li(ng-if="isLoggedIn === true")
+        .userView
+            .background
+                img(style="width: 100%;" ng-src="{{profile_img}}{{cacheBustParam}}" alt="{{username}}")
+            a(href="profile/{{username}}")
+                img.circle._2crcl._2whtbrdd(ng-src="{{profile_img}}{{cacheBustParam}}")
+            a(href="profile/{{username}}")
+                span.white-text.name
+            a(href="profile/{{username}}")
+                span.white-text.name {{fullname}}
+                    p @{{username}}
+    li
+        a.waves-effect.red-text.darken-2(href="/")
+            i.material-icons.red-text.darken-3 home
+            |Home
+    li
+        a.waves-effect.orange-text.darken-3(href="category")
+            i.material-icons.orange-text.darken-3 view_modules
+            |Category
+    li.divider
+    div(ng-if="superUser === true")
+        li
+            a.waves-effect.teal-text(href="dashboard/report")
+                i.material-icons.teal-text notifications_none
+                | Report
+                //span.new.badge(ng-if="hasNoti === true") {{notificationCount}}
+
+    li.divider
+    div(ng-if="isLoggedIn === true")
+        li
+            a.waves-effect.teal-text(href="profile/{{username}}/notification")
+                i.material-icons.teal-text notifications_none
+                |Notification
+                span.new.badge(ng-if="hasNoti === true") {{notificationCount}}
+        li
+            a.waves-effect.light-blue-text.accent-4(href="profile/{{username}}/followers")
+                i.material-icons.light-blue-text.accent-4 group_add
+                |Followers
+        li
+            a.waves-effect.indigo-text.darken-3(href="profile/{{username}}/following")
+                i.material-icons.indigo-text.darken-3 group
+                | Following
+        li.divider
+        li
+            a.waves-effect.amber-text.darken-3(href="profile/{{username}}/starred-posts")
+                i.material-icons.amber-text.darken-3 stars
+                | Starred posts
+        li
+            a.waves-effect.brown-text(href="profile/{{username}}")
+                i.material-icons.brown-text perm_identity
+                |View profile
+        li
+            a.waves-effect.blue-grey-text.darken-4(href="signout?redirect={{redirectAfterAuth}}")
+                i.material-icons.blue-grey-text.darken-4 settings_power
+                | Sign out
+    div.hide-on-med-and-up(ng-if="isLoggedIn === false")
+        li
+            a.btn-flat.waves-effect(href="signin/?redirect={{redirectAfterAuth}}") sign in
+        li
+            a.btn._2grdntbg.white-text.waves-effect(href="signup") sign up

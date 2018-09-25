@@ -1,0 +1,23 @@
+//Created by Daniel on 6/30/2017.
+//.modal.modal-fixed-footer.bottom-sheet
+#pop.modal.modal-fixed-footer(style="height: 40%;")
+    .modal-content
+        h4#myModalLabel
+        .row
+            form.col.s12
+                .row
+                    .col.s12.qt-hldr-prnt
+                        #qoute-holder
+                        //end quote-holder
+                    .input-field.col.s12#gist-title-input
+                        input#gistTitle.validate(type="text" placeholder="Enter Title. Shouldn't be to long")
+                    .input-field.col.s12
+                        .Editor-container(style="max-height: 300px; position: relative;")
+                            textarea(id="postArea" class="Editor-editor" data-emojiable="true" placeholder="Message" style="height: inherit;")
+                            input#outputArea
+    .modal-footer
+        button.waves-efffect.btn._2rnddcnrs._2fltuplbtn#contentImgUpload
+            i.material-icons photo
+        input#contentImgSelector(type="file" name="file" accept="image/jpeg, jpg, png, gif" style="display: none;")
+        a#add_post(ng-click="addPost()" ng-bind-html="btnText").modal-action.btn._2grdntbg.waves-effect
+        a(style="margin-right: 20px;").modal-action.modal-close.btn-flat close

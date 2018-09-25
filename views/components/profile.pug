@@ -1,0 +1,273 @@
+//Created by Daniel on 6/30/2017.
+
+//profile view
+.row(ng-controller="prflCntrllr")
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") profile
+                a.breadcrumb(href="profile/{{u.username}}") {{u.username}}
+
+    // Preloader
+    ._2alncnbtr(ng-hide="isLoaded")
+        .preloader-wrapper.active
+            .spinner-layer.spinner-blue
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-red
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-yellow
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                    .circle
+            .spinner-layer.spinner-green
+                .circle-clipper.left
+                    .circle
+                .gap-patch
+                    .circle
+                .circle-clipper.right
+                        .circle
+
+    .col.m12.s12.l12(ng-show="isLoaded")
+        .card
+            .row
+                .col.m12.s12.l12._2prfhldr._2ovrflwhddn._2txtshdw
+                    ._2prfbg#profile-preview-image-cover(style="background-image: url({{u.user_avatar}}{{cacheBustParam}}); background-repeat: no-repeat; background-position: 50% 50%;background-size: cover;")
+                    .row
+                        .col.s12.m4.l4
+                            ._2prfinfhldr
+                                img#profile-preview-image.responsive-img(src="{{u.user_avatar}}{{cacheBustParam}}")
+                                form#imgUpload(ng-if="u.isAdmin === true" method="POST" enctype="multipart/form-data")
+                                    button.btn.waves-effect.no-padding._2btn.small._2chngcvrbtn._2grdntbg#profile-image-upload-btn(type="button")
+                                        i.material-icons add
+                                    //input#profile-upload-form-btn(type="file" name="profileImage" accept="image/jpg, png, jpeg" style="display:none;")
+                                    input#profile-upload-form-btn(ngf-select="upload(file)" type="file" ng-model="file" name="file" accept="image/jpg, png, jpeg" style="display:none;")
+                                    //input#subImgUpload(ng-click="previewProfileImg()" type="submit" name="submitImg" style="display:none;")
+
+                            ._2prfnmhldr
+                               h3 {{u.fullname}}
+                               h5 @{{u.username}}
+                        .col.s12.m8.l8._2pad5000
+                            .row._2rltv._2dslblnkclr.align-center.no-margin
+                                .col.s4.m4.l4(ng-click="scrollTo('mpa')")
+                                    a#myposts
+                                        span {{u.posts}}
+                                        h6 My Gists
+                                .col.s4.m4.l4
+                                    a#followers(href="profile/{{u.username | permalink}}/followers")
+                                        span {{u.followers}}
+                                        h6 Followers
+                                .col.s4.m4.l4
+                                    a#following(href="profile/{{u.username| permalink}}/following")
+                                        span {{u.following}}
+                                        h6 Following
+                            button#edit-profile.btn.waves-effect.waves-teal._2cstm._2grdntbg._2rnddcnrs(ng-if="u.isAdmin === true" type="button") Edit Profile
+                                i.material-icons.left edit
+                            a.btn.waves-effect.waves-teal._2cstm._2grdntbg._2rnddcnrs.tooltipped(ng-if="u.isAdmin === false" id="{{u.followBtnId}}" data-role="user" data-purpose="{{u.followPurpose}}" data-sess="{{id}}" data-follow="{{u.followersId}}" data-tooltip="{{u.followBtnText}} {{u.username}}" data-activates="tooltip" data-position="top" data-delay="50" style="padding-bottom: 10px;")
+                                i.material-icons {{u.followBtnIcon}}
+
+
+                    //.divider._2dvdr
+
+                .col.m12.s12.l12._2prfhldr._2ovrflwy
+                    ._2prfvwprthldr._2rltv.pad25#profile-preview
+                        table
+                            thead
+                                tr
+                                    th Profile
+                            tbody
+                                tr.tooltipped(data-tooltip="Bio" data-position="right" data-delay="50")
+                                    td.bolder.padleft Bio :
+                                    td(ng-bind-html="u.bio") {{u.bio}}
+                                tr.tooltipped(data-tooltip="Full Name" data-position="right" data-delay="50")
+                                    td.bolder.padleft FullName:
+                                    td {{u.fullname}}
+                                tr.tooltipped(data-tooltip="Username" data-position="right" data-delay="50")
+                                    td.bolder.padleft Username:
+                                    td {{u.username}}
+                                tr.tooltipped(data-tooltip="Age" data-position="right" data-delay="50")
+                                    td.bolder.padleft Age:
+                                    td {{u.dob}}
+                                tr.tooltipped(data-tooltip="Full Name" data-position="right" data-delay="50")
+                                    td.bolder.padleft Website:
+                                    td {{u.website}}
+                                tr.tooltipped(data-tooltip="Joined Gistout" data-position="right" data-delay="50")
+                                    td.bolder.padleft Joined:
+                                    td {{u.joined}}
+                                tr.tooltipped(data-tooltip="Last Active" data-position="right" data-delay="50")
+                                    td.bolder.padleft Last Active:
+                                    td {{u.last_seen}}
+                                tr.tooltipped(data-tooltip="Star Progress" data-position="right" data-delay="50")
+                                    td.bolder.padleft Star progress:
+                                    td
+                                        i(ng-repeat="s in star" class="material-icons {{s.color}} hvr-pulse-grow") {{s.icon}}
+                                        br
+                                        | {{u.user_points}}ps(<span class="{{u.bagdes}}">{{u.bagdes}}</span>)
+
+                                    //td
+                                tr.tooltipped(data-tooltip="Mode" data-position="right" data-delay="50")
+                                    td.bolder.padleft Away/Active:
+                                    td
+                                        // Switch
+                                        .switch(ng-show="u.online")
+                                            label Away
+                                                input(type="checkbox" checked)
+                                                .lever
+                                                | Active
+                                        // Switch
+                                        .switch(ng-hide="u.online")
+                                            label Away
+                                                input(type="checkbox")
+                                                .lever
+                                                | Active
+
+                    .col.m12.s12.l12._2prfhldr._2ovrflwy#profile-edit-form(style="display: none;")
+                        ._2prfvwprthldr._2rltv.pad25
+                            form#profileForm(ng-submit="submitProfileUpdate()")
+                                table
+                                    thead
+                                        tr
+                                            th Profile
+                                    tbody
+                                        tr.tooltipped(data-tooltip="Bio" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Bio :
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        textarea#inputBio.validate.no-margin.materialize-textarea(name="bioData" style="margin-bottom: 0px;") {{u.bio}}
+                                                        label(for="inputBio" data-error="wrong" data-success="right") bio
+
+                                        tr.tooltipped(data-tooltip="Full Name" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align FullName:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#InputFullName(type="text" name="fullname" style="margin-bottom: 0px;" value="{{u.fullname}}").validate.no-margin
+                                                        label(for="InputFullName" data-error="wrong" data-success="right") Full name
+
+                                        tr.tooltipped(data-tooltip="Email" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Email:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#InputEmail(type="email" name="email" style="margin-bottom: 0px;" value="{{u.email}}").validate.no-margin
+                                                        label(for="InputEmail" data-error="wrong" data-success="right") Email
+
+                                        tr.tooltipped(data-tooltip="Username" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Username:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#InputNickname(type="text" name="uname" style="margin-bottom: 0px;" value="{{u.username}}").validate.no-margin
+                                                        label(for="InputNickname" data-error="wrong" data-success="right") Username
+
+                                        tr.tooltipped(data-tooltip="Date of Birth" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Date of Birth:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#Dob(type="date" name="dob" style="margin-bottom: 0px;").validate.no-margin
+                                                        //label(for="Dob" data-error="wrong" data-success="right") D.o.b
+                                                    small.padleft This is only to Determine your Age!!
+
+                                        tr.tooltipped(data-tooltip="Website" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Website:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#InputWebsite(type="url" name="website" style="margin-bottom: 0px;" value="{{u.website}}").validate.no-margin
+                                                        label(for="InputWebsite" data-error="wrong" data-success="right") Website
+
+                                        tr.tooltipped(data-tooltip="Password" data-position="right" data-delay="50")
+                                            td.bolder.padleft.vert-align Password:
+                                            td
+                                                .row.no-margin
+                                                    .input-field.col.s12.no-margin
+                                                        input#InputPassword(type="password" name="password" style="margin-bottom: 0px;").validate.no-margin
+                                                        label(for="InputPassword" data-error="wrong" data-success="right") Password
+
+                                        tr
+                                            td
+                                            td
+                                                .row
+                                                    .input-field.col.s12
+                                                        button.btn-flat.waves-effect._2rnddcnrs#bck-to-profile-preview Back
+                                                        button.btn.waves-effect._2grdntbg._2rnddcnrs#saveProfile(style="margin-left: 20px;" name="submit" type="submit") Save Profile
+    .row(ng-show="isLoaded" on-content-render="contentLoaded")
+        .col.m12.s12.l12#mpa
+            .card
+                ul.tabs
+                    li.tab.col.s3
+                        a(href="#myPosts") My Gists
+                    li.tab.col.s3
+                        a(href="#followed-Gists") Followed Gists
+        #myPosts
+            .row
+                .col.s12.m6.l6(ng-if="u.userHasGist === true" ng-repeat="gist in u.userGists | limitTo: 20" on-finish-render="ngRepeatFinished" data-id="{{gist.id}}")
+                    .card.waves-effect.horizontal
+                        .card-image._2crdimgmx(ng-show="gist.hasImage" style="background-image: url({{gist.image}}{{cacheBustParam}});")
+                            a(href="gist/{{gist.id}}/{{gist.title | permalink}}")
+                                ._2trnsbg
+                                //img.scale(src="{{gist.image}}{{cacheBustParam}}" alt="{{gist.title}}")
+                        .card-content
+                            p._2fntwht.truncate
+                                a(href="gist/{{gist.id}}/{{gist.title | permalink}}") {{gist.title}}
+                            span.card-title._2cptlz.pad10._2fly
+                                a(href="profile/{{u.username | permalink}}") {{u.username}}
+                                br
+                                span.small {{gist.created}}
+                                //abbr.timeago(title="{{gist.created}}") {{gist.created}}
+                                a(href="profile/{{u.username | permalink}}")
+                                    //div._2cnvsbg._2grdntbg
+                                    img._2rndd(src="{{u.user_avatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                                ._2gstinfhldr
+                                    i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.posts}} posts") chat_bubble_outline
+                                    i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.views}} views") visibility
+
+                p(ng-if="u.userHasGist === false" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                    i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                    br
+                    | you have no gist
+
+        #followed-Gists
+            .row
+                .col.s12.m6.l6(ng-if="u.userHasFollowedsGist === true" ng-repeat="gist in u.userFollowedGists | limitTo: 20" on-finish-render="ngRepeatFinished" data-id="{{gist.id}}")
+                    .card.horizontal
+                        .card-image._2crdimgmx(ng-show="gist.hasImage" style="background-image: url({{gist.image}}{{cacheBustParam}});")
+                            a(href="gist/{{gist.id}}/{{gist.title | permalink}}")
+                                ._2trnsbg
+                                img.scale(src="{{gist.image}}{{cacheBustParam}}" alt="{{gist.title}}")
+                        .card-content
+                            p._2fntwht.truncate
+                                a(href="gist/{{gist.id}}/{{gist.title | permalink}}") {{gist.title}}
+                            span.card-title._2cptlz.pad10._2fly
+                                a(href="profile/{{u.username | permalink}}") {{u.username}}
+                                br
+                                span.small {{gist.created}}
+                                //abbr.timeago(title="{{gist.created}}") {{gist.created}}
+                                a(href="profile/{{u.username | permalink}}")
+                                    //div._2cnvsbg._2grdntbg
+                                    img._2rndd(src="{{u.user_avatar}}{{cacheBustParam}}" style="width: 30px; height: 30px;")
+                                ._2gstinfhldr
+                                    i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.posts}} posts") chat_bubble_outline
+                                    i.material-icons.tooltipped(data-position="top" data-delay="50" data-tooltip="{{gist.views}} views") visibility
+
+                p(ng-if="u.userHasFollowedsGist === false" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+                    i.material-icons(style="color: #CCC;font-size:80px;") sentiment_neutral
+                    br
+                    | No followed gist
+
+//end profile view

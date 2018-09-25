@@ -1,0 +1,32 @@
+//Created by Daniel on 8/4/2017.
+.row(ng-controller="brthdyCntrllr" style="position: relative;")
+    nav.breadcrumb--nav
+        .nav-wrapper
+            .col.s12
+                a.breadcrumb(href="/") Home
+                a.breadcrumb(href="#") Todays birthdays
+
+    .row.no-margin
+        .col.s12.m12.l12
+            .card(style="background-image: url(lib/img/birthday-background.jpg); background-repeat: no-repeat; background-position: 50% 5%; background-size: 103%;")
+                h3.pad20.white-text.no-margin._2txtshdw Todays birthdays
+
+    .col.s12.m12.l12
+        .card(ng-hide="noBirthday")
+            ul.collection(style="padding: 10px 0;overflow: visible;")
+                li.collection-item.avatar(id="list-group-{{b.id}}" ng-repeat="b in birthday" on-finish-render="ngRepeatFinished" style="min-height: inherit; padding-left: 72px;")
+                    //a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped.waves-effect(ng-show="n.following" id="{{n.followBtnId}}" data-role="user" data-purpose="follow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}" data-tooltip="{{n.followText}} {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50")
+                    //    i.material-icons {{n.followBtnIcon}}
+                    //a.btn.btn-outline._2rnddcnrs.secondary-content.tooltipped(id="unfollowing-btn" data-tooltip="UnFollow {{n.senderName}}" data-activates="tooltip" data-position="top" data-delay="50" data-role="user" data-purpose="unfollow" data-sess="{{n.id}}" data-follow="{{n.sender_id}}")
+                    //    i.material-icons person_add
+                    a(href="profile/{{b.username}}")
+                        img(ng-src="{{b.user_avatar}}{{cacheBustParam}}" alt="{{b.username}}").circle
+                        small.title.bolder(style="color: {{b.color}}") {{b.fullname}}
+                            span.badge.new(data-badge-caption="years old" style="background-color: {{b.color}};") {{b.age}}
+                        p @{{b.username}}
+                        //p(style="position: absolute; top: 10px; right: 10px;") {{b.age}}
+
+        p(ng-show="noBirthday" style="color: #CCC; text-align: center; font-size:30px;text-transform: capitalize;")
+            i.material-icons(style="color: #CCC;font-size:80px;") notifications_off
+            br
+            |No birthday celebration today
